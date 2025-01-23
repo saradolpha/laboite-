@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Questionnaire: Première Œuvre au Programme</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body onload="StartUp()" id="TheBody">
+  <div class="NavButtonBar" id="TopNavBar">
+    <button class="NavButton" onclick="history.back(); return false;">&lt;=</button>
+  </div>
+  <div class="Titles">
+    <h2 class="ExerciseTitle">
+      <a style="cursor: pointer; text-decoration: underline;" onclick="window.open('https://sites.google.com/site/francaislycee/');return false;">
+        Questionnaire: première <img src="Bouchriha.JPG" alt="Bouchriha.JPG" title="Bouchriha" width="60" height="72" style="float: left;">œuvre au programme.
+      </a>
+    </h2>
+    <h3 class="ExerciseSubtitle">Test de compréhension : 40 questions</h3>
+    <div id="Timer"><span id="TimerText">&nbsp;&nbsp;</span></div>
+  </div>
+  <div id="InstructionsDiv" class="StdDiv">
+    <div id="Instructions">Répondez aux questions par une réponse courte ou assez courte. Faites attention aux consignes.</div>
+  </div>
+  <div id="MainDiv" class="StdDiv">
+    <div id="QNav" class="QuestionNavigation">
+      <p style="text-align: right;">
+        <button id="ShowMethodButton" class="FuncButton" onclick="ShowHideQuestions(); return false;">Afficher toutes les questions.</button>
+      </p>
+      <div id="OneByOneReadout">
+        <button id="PrevQButton" class="FuncButton" onclick="ChangeQ(-1); return false;">&lt;=</button>
+        <span id="QNumReadout" class="QNum">&nbsp;</span>
+        <button id="NextQButton" class="FuncButton" onclick="ChangeQ(1); return false;">=&gt;</button>
+        <br />
+      </div>
+    </div>
+    <ol class="QuizQuestions" id="Questions">
+      <!-- Questions will be dynamically added here -->
+    </ol>
+    <div id="CharacterKeypad" class="Keypad">
+      <button onclick="TypeChars('\u00E0'); return false;">à</button>
+      <button onclick="TypeChars('\u00C0'); return false;">À</button>
+      <button onclick="TypeChars('\u00E2'); return false;">â</button>
+      <button onclick="TypeChars('\u00E7'); return false;">ç</button>
+      <button onclick="TypeChars('\u00C9'); return false;">É</button>
+      <button onclick="TypeChars('\u00E9'); return false;">é</button>
+      <button onclick="TypeChars('\u00E8'); return false;">è</button>
+      <button onclick="TypeChars('\u00EA'); return false;">ê</button>
+      <button onclick="TypeChars('\u00EE'); return false;">î</button>
+    </div>
+  </div>
+  <div class="Feedback" id="FeedbackDiv">
+    <div class="FeedbackText" id="FeedbackContent"></div>
+    <button id="FeedbackOKButton" class="FuncButton" onclick="HideFeedback(); return false;">&nbsp;OK&nbsp;</button>
+  </div>
+  <div class="NavButtonBar" id="BottomNavBar">
+    <button class="NavButton" onclick="history.back(); return false;">&lt;=</button>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
+body {
+  font-family: Geneva, Arial, sans-serif;
+  background-color: #C0C0C0;
+  color: #000000;
+  margin: 0 5%;
+  font-size: small;
+}
+
+.NavButtonBar {
+  background-color: #000000;
+  text-align: center;
+  margin: 2px 0;
+  clear: both;
+  font-size: 100%;
+}
+
+.NavButton {
+  border-style: solid;
+  border-left-color: #7f7f7f;
+  border-top-color: #7f7f7f;
+  border-right-color: #000000;
+  border-bottom-color: #000000;
+  background-color: #000000;
+  color: #ffffff;
+  border-width: 2px;
+  cursor: pointer;
+}
+
+.Titles {
+  padding: 0.5em;
+  text-align: center;
+  color: #000000;
+}
+
+.ExerciseTitle {
+  font-size: 140%;
+  color: #000000;
+}
+
+.ExerciseSubtitle {
+  font-size: 120%;
+  color: #000000;
+}
+
+.StdDiv {
+  background-color: #FFCCCC;
+  text-align: center;
+  font-size: 100%;
+  color: #000000;
+  padding: 0.5em;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #000000;
+  margin-bottom: 1px;
+}
+
+.QuizQuestions {
+  text-align: left;
+  list-style-type: none;
+}
+
+.QuizQuestion {
+  padding: 1em;
+  border-style: solid;
+  border-width: 0 0 1px 0;
+}
+
+.ShortAnswerBox {
+  width: 100%;
+  padding: 5px;
+  font-size: 120%;
+}
+
+.FuncButton {
+  text-align: center;
+  border-style: solid;
+  border-left-color: #ffe5e5;
+  border-top-color: #ffe5e5;
+  border-right-color: #7f6666;
+  border-bottom-color: #7f6666;
+  color: #000000;
+  background-color: #FFCCCC;
+  border-width: 2px;
+  padding: 3px 6px;
+  cursor: pointer;
+}
+
+.Feedback {
+  background-color: #C0C0C0;
+  left: 33%;
+  width: 34%;
+  top: 33%;
+  z-index: 1;
+  border-style: solid;
+  border-width: 1px;
+  padding: 5px;
+  text-align: center;
+  color: #000000;
+  position: absolute;
+  display: none;
+  font-size: 100%;
+}
+
+.Keypad {
+  text-align: center;
+  display: none;
+  margin-bottom: 0.5em;
+}
+
+.Keypad button {
+  font-family: Geneva, Arial, sans-serif;
+  font-size: 120%;
+  background-color: #ffffff;
+  color: #000000;
+  width: 2em;
+}
+function StartUp() {
+  // Initialization logic
+  document.getElementById('TimerText').style.display = 'inline';
+  SetUpQuestions();
+}
+
+function SetUpQuestions() {
+  // Logic to set up questions
+}
+
+function ShowHideQuestions() {
+  // Logic to show/hide questions
+}
+
+function ChangeQ(ChangeBy) {
+  // Logic to navigate between questions
+}
+
+function CheckShortAnswer(QNum) {
+  // Logic to check short answers
+}
+
+function ShowHint(QNum) {
+  // Logic to show hints
+}
+
+function ShowAnswers(QNum) {
+  // Logic to show answers
+}
+
+function HideFeedback() {
+  // Logic to hide feedback
+}
+
+function TypeChars(Chars) {
+  // Logic to type special characters
+}
+
+// Timer logic
+var Seconds = 1800;
+var Interval = null;
+
+function StartTimer() {
+  Interval = window.setInterval('DownTime()', 1000);
+}
+
+function DownTime() {
+  var ss = Seconds % 60;
+  if (ss < 10) {
+    ss = '0' + ss + '';
+  }
+
+  var mm = Math.floor(Seconds / 60);
+
+  if (document.getElementById('Timer') == null) {
+    return;
+  }
+
+  document.getElementById('TimerText').innerHTML = mm + ':' + ss;
+  if (Seconds < 1) {
+    window.clearInterval(Interval);
+    TimeOver = true;
+    TimesUp();
+  }
+  Seconds--;
+}
